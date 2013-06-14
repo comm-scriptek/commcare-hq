@@ -132,6 +132,7 @@ class RepeaterTest(TestCase):
             repeat_record.fire(post_fn=self.make_post_fn([404, 200]))
             repeat_record.save()
 
+        print self.log
         self.assertEqual(len(self.log), 4)
         self.assertEqual(self.log[1], (self.form_repeater.url, 200, xform_xml))
         self.assertEqual(self.log[3][:2], (self.case_repeater.url, 200))
