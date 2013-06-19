@@ -143,6 +143,16 @@ class CommCareCaseResource(v0_3.CommCareCaseResource, DomainSpecificResourceMixi
     class Meta(v0_3.CommCareCaseResource.Meta):
         max_limit = 100 # Today, takes ~25 seconds for some domains
 
+    def determine_format(self, request):
+        """
+        Used to determine the desired format from the request.format
+        attribute.
+        """
+        format = request.GET.get('format', None)
+        if format and format in self._meta.serializer.formats:
+            return self._meta.serializer.get_mime_for_format(format)
+        return super(CommCareCaseResource, self).determine_format(request)
+
 class GroupResource(JsonResource, DomainSpecificResourceMixin):
     id = fields.CharField(attribute='get_id', unique=True, readonly=True)
     domain = fields.CharField(attribute='domain')
