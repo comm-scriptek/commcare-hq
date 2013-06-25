@@ -670,9 +670,6 @@ def view_generic(req, domain, app_id=None, module_id=None, form_id=None, is_user
 
         'case_properties': case_properties,
 
-        'new_module_form': NewModuleForm(),
-        'new_xform_form': NewXFormForm(),
-
         'show_secret_settings': req.GET.get('secret', False)
     }
     context.update(base_context)
