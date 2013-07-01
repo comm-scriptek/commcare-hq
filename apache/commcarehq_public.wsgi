@@ -6,7 +6,8 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 os.environ['CUSTOMSETTINGS'] = 'demo'
 
 # first set the root directory on the path 
-parent_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+current_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+parent_dir = '/'.join(current_dir.split('/')[:-1])
 if parent_dir not in sys.path:
     sys.path.append(parent_dir)
 
