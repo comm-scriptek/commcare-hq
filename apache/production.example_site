@@ -1,0 +1,25 @@
+<VirtualHost *:80>
+	ServerName vps.scriptek.mobi
+	
+	DocumentRoot /var/www/production/commcare-hq/staticmedia
+	
+	WSGIScriptAlias / /var/www/production/commcare-hq/apache/commcarehq_public.wsgi
+	<Directory /var/www/production>
+		Order allow,deny
+		Allow from all
+	</Directory>
+
+	<Location "/robots.txt">
+		SetHandler None
+	</Location>
+	
+	Alias /robots.txt /var/www/production/staticfiles/robots.txt
+
+	Alias /static /var/www/production/commcare-hq/staticfiles
+	Alias /media /var/www/production/commcare-hq/staticmedia
+	
+	ErrorLog /var/www/production/logs/error.log
+	CustomLog /var/www/production/logs/access.log combined
+
+</VirtualHost>
+
