@@ -6,13 +6,8 @@ import sys, os
 
 filedir = os.path.dirname(__file__)
 
-submodules_list = os.listdir(os.path.join(filedir, 'submodules'))
-for d in submodules_list:
-    if d == "__init__.py" or d == '.' or d == '..':
-        continue
-    sys.path.insert(1, os.path.join(filedir, 'submodules', d))
-
-sys.path.append(os.path.join(filedir,'submodules'))
+from settingshelper import set_path
+set_path()
 
 try:
     import settings # Assumed to be in the same directory.

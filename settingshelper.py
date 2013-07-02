@@ -1,3 +1,6 @@
+import os
+import sys
+
 def get_server_url(http_method, server_root, username, password):
     if username and password:
         return "%(http_method)s://%(user)s:%(pass)s@%(server)s" % \
@@ -45,4 +48,28 @@ def make_couchdb_tuple(app_label, couch_database_url):
         return app_label, "%s__%s" % (couch_database_url, app_label)
     else:
         return app_label, couch_database_url
+
+def set_path(site_root=None):
+    """
+    Set sys path to include all the required submodules.
+    """
+    if site_root is None:
+        # Assume its the current file's directory
+        site_root = os.path.dirname(__file__)
+
+    def add_to_path(module_dir):
+        addition = os.path.abspath(os.path.join(site_root, module_dir))
+        if addition not in sys.path:
+            # There are some things in the submodule source that are
+            # not in the main modules so the submodules must come at
+            # the front of the list to make sure that their modules
+            # are found first and in order. This is NOT good.
+            sys.path.insert(1, addition)
+        
+    add_to_path('submodules')
+
+    for d in os.listdir(os.path.join(site_root, 'submodules')):
+        if d == "__init__.py" or d == '.' or d == '..':
+            continue
+        add_to_path(os.path.join('submodules', d))
 
