@@ -53,7 +53,7 @@ LOCALE_PATHS = ()
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
-FILEPATH = os.path.abspath(os.path.dirname(__file__))
+FILEPATH = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 # media for user uploaded media.  in general this won't be used at all.
 MEDIA_ROOT = os.path.join(FILEPATH, 'mediafiles')
 STATIC_ROOT = os.path.join(FILEPATH, 'staticfiles')
