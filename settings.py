@@ -500,16 +500,9 @@ MESSAGE_LOG_OPTIONS = {
 IVR_OUTBOUND_RETRIES = 3
 IVR_OUTBOUND_RETRY_INTERVAL = 10
 
-try:
-    #try to see if there's an environmental variable set for local_settings
-    if os.environ.get('CUSTOMSETTINGS', None) == "demo":
-        # this sucks, but is a workaround for supporting different settings
-        # in the same environment
-        from settings_demo import *
-    else:
-        from localsettings import *
-except ImportError:
-    pass
+
+from localsettings import *
+
 
 if DEBUG:
     try:
@@ -533,6 +526,11 @@ if not DEBUG:
 
 ####### Couch Forms & Couch DB Kit Settings #######
 from settingshelper import get_dynamic_db_settings, make_couchdb_tuple
+
+with open('/tmp/wsgi.log', 'w') as f:
+    import sys
+    import pprint
+    f.write(pprint.pformat(sys.path))
 
 _dynamic_db_settings = get_dynamic_db_settings(COUCH_SERVER_ROOT, COUCH_USERNAME, COUCH_PASSWORD,
                                                COUCH_DATABASE_NAME, INSTALLED_APPS,
