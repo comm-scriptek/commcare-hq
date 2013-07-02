@@ -9,6 +9,8 @@
 		Allow from all
 	</Directory>
 
+	SetEnv DJANGO_SETTINGS_MODULE 'settings.production'
+	
 	<Location "/robots.txt">
 		SetHandler None
 	</Location>

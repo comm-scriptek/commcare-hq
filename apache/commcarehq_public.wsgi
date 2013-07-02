@@ -2,7 +2,7 @@ import os
 import sys
 import django.core.handlers.wsgi
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+# DJANGO_SETTINGS_MODULE must be set in the apache configuration
 
 # first set the root directory on the path 
 parent_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
@@ -14,4 +14,14 @@ if parent_dir not in sys.path:
 from settingshelper import set_path
 set_path()
 
-application = django.core.handlers.wsgi.WSGIHandler()
+django_application = django.core.handlers.wsgi.WSGIHandler()
+
+# We need to inject the DJANGO_SETTINGS_MODULE environment variable
+# set by apache into our application's environment each time apache
+# calls it.
+
+def my_application(environ, start_response):
+    os.environ['DJANGO_SETTINGS_MODULE'] = environ['DJANGO_SETTINGS_MODULE']
+    return django_application(environ, start_response)
+
+application = my_application
